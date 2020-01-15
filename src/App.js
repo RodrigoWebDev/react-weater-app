@@ -29,7 +29,7 @@ class App extends Component {
 
     this.openWeatherApi = (city) => {
       const apiKey = "7664f5403c235171315453a76f72e8d8";
-      return `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&lang=pt_br&appid=${apiKey}`;
+      return `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&lang=pt_br&appid=${apiKey}`;
     }
 
     this.handleSubmit = (e) => {
