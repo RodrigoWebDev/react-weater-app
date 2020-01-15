@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios"
 import './App.css';
+import wheaterIcon from "./wheater.png"
 
 /*
  API KEY -> 7664f5403c235171315453a76f72e8d8
@@ -28,10 +29,11 @@ class App extends Component {
 
     this.openWeatherApi = (city) => {
       const apiKey = "7664f5403c235171315453a76f72e8d8";
-      return `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
+      return `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&lang=pt_br&appid=${apiKey}`;
     }
 
-    this.handleClick = () => {
+    this.handleSubmit = (e) => {
+      e.preventDefault();
       const value = this.state.city
       const self = this;
 
@@ -53,8 +55,8 @@ class App extends Component {
             temp_max: main.temp_max,
             wheater: res.data.list[0].weather[0].description,
             humidity: main.humidity,
-            sunrise: city.sunrise,
-            sunset: city.sunset,
+            sunrise: self.formatTimeStamp(city.sunrise),
+            sunset: self.formatTimeStamp(city.sunset),
             date: res.data.list[0].dt_txt
           }
         });
@@ -66,20 +68,32 @@ class App extends Component {
       .finally(function(){
       })
     }
+
+    this.formatTimeStamp = (timeStamp) => {
+      let unix_timestamp = timeStamp;
+      let date = new Date(unix_timestamp * 1000);
+      let hours = date.getHours();
+      let minutes = "0" + date.getMinutes();
+      let seconds = "0" + date.getSeconds();
+
+      let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+      console.log(formattedTime);
+      return formattedTime;
+    }
   }
 
   render() {
     return (
       <div className="App">
         {!this.state.fetch &&
-          <div class="search">
+          <form onSubmit={this.handleSubmit} class="search">
               <input onChange={this.handleChange} type="text" placeholder="Busca por cidade" />
-              <button onClick={this.handleClick} className="button" type="submit">Procurar</button>
-          </div>
+              <button className="button" type="submit">Procurar</button>
+          </form>
         }
 
         {this.state.isFetching &&
-          <div className="lds-ring"><div></div><div></div><div></div><div></div></div>
+          <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         }
 
         {this.state.fetch &&
@@ -90,22 +104,23 @@ class App extends Component {
             <div className="whater-content">
               <div>
                 <div>Mínima</div>
-                <span>{this.state.weatherInfo.temp_min}</span>
+                <span>{this.state.weatherInfo.temp_min}ºC</span>
               </div>
               <div>
-                <div>{this.state.weatherInfo.temp}</div>
-                <span>{this.state.weatherInfo.wheater}</span>
+                <img src={wheaterIcon} alt="wheater icon"/>
+                <span>{this.state.weatherInfo.temp}ºC</span>
+                <div>{this.state.weatherInfo.wheater}</div>
               </div>
               <div>
-                <div>Mínima</div>
-                <span>{this.state.weatherInfo.temp_max}</span>
+                <div>Máxima</div>
+                <span>{this.state.weatherInfo.temp_max}ºC</span>
               </div>
             </div>
 
             <div class="wheater-footer">
               <div>
                 <span>Umidade</span>
-                <span>{this.state.weatherInfo.humidity}</span>
+                <span>{this.state.weatherInfo.humidity}%</span>
               </div>
 
               <div>
