@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import axios from "axios"
 import './App.css';
-import wheaterIcon from "./wheater.png"
-
+import wheaterIcon from "./wheater.png";
+import Error from "./components/Error";
+import Search from "./components/Search";
+import Loader from "./components/Loader";
 /*
  API KEY -> 7664f5403c235171315453a76f72e8d8
 */
@@ -40,33 +42,33 @@ class App extends Component {
       self.setState({ isFetching: true, error: false });
 
       axios.get(this.openWeatherApi(value))
-      .then(function(res){
-        console.log("response > ", res);
-        
-        let main = res.data.list[0].main
-        let city = res.data.city
+        .then(function (res) {
+          console.log("response > ", res);
 
-        self.setState({ 
-          isFetching: false, 
-          fetch: true ,
-          weatherInfo: {
-            temp: main.temp,
-            temp_min: main.temp_min,
-            temp_max: main.temp_max,
-            wheater: res.data.list[0].weather[0].description,
-            humidity: main.humidity,
-            sunrise: self.formatTimeStamp(city.sunrise),
-            sunset: self.formatTimeStamp(city.sunset),
-            date: res.data.list[0].dt_txt
-          }
-        });
-      })
-      .catch(function(err){
-        console.log("error > ", err);
-        self.setState({ isFetching: false, error: true });
-      })
-      .finally(function(){
-      })
+          let main = res.data.list[0].main
+          let city = res.data.city
+
+          self.setState({
+            isFetching: false,
+            fetch: true,
+            weatherInfo: {
+              temp: main.temp,
+              temp_min: main.temp_min,
+              temp_max: main.temp_max,
+              wheater: res.data.list[0].weather[0].description,
+              humidity: main.humidity,
+              sunrise: self.formatTimeStamp(city.sunrise),
+              sunset: self.formatTimeStamp(city.sunset),
+              date: res.data.list[0].dt_txt
+            }
+          });
+        })
+        .catch(function (err) {
+          console.log("error > ", err);
+          self.setState({ isFetching: false, error: true });
+        })
+        .finally(function () {
+        })
     }
 
     this.formatTimeStamp = (timeStamp) => {
@@ -86,14 +88,14 @@ class App extends Component {
     return (
       <div className="App">
         {!this.state.fetch &&
-          <form onSubmit={this.handleSubmit} class="search">
-              <input onChange={this.handleChange} type="text" placeholder="Busca por cidade" />
-              <button className="button" type="submit">Procurar</button>
-          </form>
+          <Search
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+          />
         }
 
         {this.state.isFetching &&
-          <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <Loader />
         }
 
         {this.state.fetch &&
@@ -107,7 +109,7 @@ class App extends Component {
                 <span>{this.state.weatherInfo.temp_min}ºC</span>
               </div>
               <div>
-                <img src={wheaterIcon} alt="wheater icon"/>
+                <img src={wheaterIcon} alt="wheater icon" />
                 <span>{this.state.weatherInfo.temp}ºC</span>
                 <div>{this.state.weatherInfo.wheater}</div>
               </div>
@@ -117,7 +119,7 @@ class App extends Component {
               </div>
             </div>
 
-            <div class="wheater-footer">
+            <div className="wheater-footer">
               <div>
                 <span>Umidade</span>
                 <span>{this.state.weatherInfo.humidity}%</span>
@@ -136,10 +138,8 @@ class App extends Component {
           </div>
         }
 
-        {this.state.error && 
-        <div className="error">
-          <h2>Ops! Ocorreu um erro. Por favor, tente novamente</h2>
-          </div>
+        {this.state.error &&
+          <Error />
         }
 
       </div>
