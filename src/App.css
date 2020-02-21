@@ -13,6 +13,18 @@ body {
   flex-wrap: wrap;
 }
 
+.app-title{
+  display: flex;
+  align-items: center;
+}
+
+.app-title img{
+  width:80px;
+  height: auto;
+  margin-right: 10px;
+  opacity: .8;
+}
+
 .search input {
   margin-bottom: 17px;
 }
@@ -187,6 +199,13 @@ body {
 }
 
 @media(max-width: 900px) {
+  .app-title {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
   .whater-content {
     flex-direction: column;
   }

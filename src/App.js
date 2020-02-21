@@ -47,14 +47,17 @@ class App extends Component {
 
           let main = res.data.list[0].main
           let city = res.data.city
+          let min = main.temp_min.toFixed(0)
+          let max = main.temp_max.toFixed(0)
+          let temp = main.temp.toFixed(0)
 
           self.setState({
             isFetching: false,
             fetch: true,
             weatherInfo: {
-              temp: main.temp,
-              temp_min: main.temp_min,
-              temp_max: main.temp_max,
+              temp: temp,
+              temp_min: min,
+              temp_max: max,
               wheater: res.data.list[0].weather[0].description,
               humidity: main.humidity,
               sunrise: self.formatTimeStamp(city.sunrise),
@@ -87,11 +90,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+
         {!this.state.fetch &&
-          <Search
-            handleSubmit={this.handleSubmit}
-            handleChange={this.handleChange}
-          />
+          <>
+            <h1 className="app-title"><img src={wheaterIcon} />React Wheater App</h1>
+            <Search
+              handleSubmit={this.handleSubmit}
+              handleChange={this.handleChange}
+            />
+          </>
         }
 
         {this.state.isFetching &&
