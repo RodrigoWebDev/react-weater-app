@@ -2,6 +2,8 @@
 
 # React Whater App
 
+A Wheater Web App build with React and Wheater API
+
 ## Live demo
 [Click here](https://romantic-gates-0ddd40.netlify.com/)
 
