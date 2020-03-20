@@ -13,6 +13,7 @@ A Wheater Web App build with React and Wheater API
 * CSS3
 * Javascript
 * React
+* Axios
 * [Weather API](https://openweathermap.org/api)
 
 ## How to Install
