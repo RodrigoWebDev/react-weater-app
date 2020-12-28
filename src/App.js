@@ -1,157 +1,18 @@
-import React, { Component } from 'react';
-import axios from "axios"
+import React from 'react';
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Footer from "./components/Footer";
 import './App.css';
-import wheaterIcon from "./wheater.png";
-import Error from "./components/Error";
-import Search from "./components/Search";
-import Loader from "./components/Loader";
-/*
- API KEY -> 7664f5403c235171315453a76f72e8d8
-*/
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      city: "",
-      weatherInfo: null,
-      isFetching: false,
-      fetch: false,
-      error: false
-    }
 
-    this.handleChange = (e) => {
-      console.log("handleChange");
-      const value = e.target.value;
-
-      this.setState({
-        city: value
-      })
-    }
-
-    this.openWeatherApi = (city) => {
-      const apiKey = "7664f5403c235171315453a76f72e8d8";
-      return `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&lang=pt_br&appid=${apiKey}`;
-    }
-
-    this.handleSubmit = (e) => {
-      e.preventDefault();
-      const value = this.state.city
-      const self = this;
-
-      self.setState({ isFetching: true, error: false });
-
-      axios.get(this.openWeatherApi(value))
-        .then(function (res) {
-          console.log("response > ", res);
-
-          let main = res.data.list[0].main
-          let city = res.data.city
-          let min = main.temp_min.toFixed(0)
-          let max = main.temp_max.toFixed(0)
-          let temp = main.temp.toFixed(0)
-
-          self.setState({
-            isFetching: false,
-            fetch: true,
-            weatherInfo: {
-              temp: temp,
-              temp_min: min,
-              temp_max: max,
-              wheater: res.data.list[0].weather[0].description,
-              humidity: main.humidity,
-              sunrise: self.formatTimeStamp(city.sunrise),
-              sunset: self.formatTimeStamp(city.sunset),
-              date: res.data.list[0].dt_txt
-            }
-          });
-        })
-        .catch(function (err) {
-          console.log("error > ", err);
-          self.setState({ isFetching: false, error: true });
-        })
-        .finally(function () {
-        })
-    }
-
-    this.formatTimeStamp = (timeStamp) => {
-      let unix_timestamp = timeStamp;
-      let date = new Date(unix_timestamp * 1000);
-      let hours = date.getHours();
-      let minutes = "0" + date.getMinutes();
-      let seconds = "0" + date.getSeconds();
-
-      let formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-      console.log(formattedTime);
-      return formattedTime;
-    }
-  }
-
-  render() {
-    return (
-      <div className="App">
-
-        {!this.state.fetch &&
-          <>
-            <h1 className="app-title"><img src={wheaterIcon} />React Wheater App</h1>
-            <Search
-              handleSubmit={this.handleSubmit}
-              handleChange={this.handleChange}
-            />
-          </>
-        }
-
-        {this.state.isFetching &&
-          <Loader />
-        }
-
-        {this.state.fetch &&
-          <div className="wheater">
-            <h2 className="city">{this.state.city}</h2>
-            <h3>{this.state.weatherInfo.date}</h3>
-
-            <div className="whater-content">
-              <div>
-                <div>Mínima</div>
-                <span>{this.state.weatherInfo.temp_min}ºC</span>
-              </div>
-              <div>
-                <img src={wheaterIcon} alt="wheater icon" />
-                <span>{this.state.weatherInfo.temp}ºC</span>
-                <div>{this.state.weatherInfo.wheater}</div>
-              </div>
-              <div>
-                <div>Máxima</div>
-                <span>{this.state.weatherInfo.temp_max}ºC</span>
-              </div>
-            </div>
-
-            <div className="wheater-footer">
-              <div>
-                <span>Umidade</span>
-                <span>{this.state.weatherInfo.humidity}%</span>
-              </div>
-
-              <div>
-                <span>Nascer do Sol</span>
-                <span>{this.state.weatherInfo.sunrise}</span>
-              </div>
-
-              <div>
-                <span>Pôr do sol</span>
-                <span>{this.state.weatherInfo.sunset}</span>
-              </div>
-            </div>
-          </div>
-        }
-
-        {this.state.error &&
-          <Error />
-        }
-
-      </div>
-    );
-  }
+const App = () => {
+  return (
+    <div className="_App">
+      <Navbar />
+      <Main />
+      <Footer />
+    </div>
+  );
 }
 
-export default App;
+export default App

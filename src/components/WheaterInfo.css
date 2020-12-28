@@ -1,0 +1,38 @@
+.weather-info-body, .weather-info-footer{
+  display: flex;
+  align-items: center;
+}
+
+.weather-info h2{
+  font-size: 20px;
+}
+
+.weather-info p{
+  font-size: 14px;
+}
+
+.weather-info img{
+  width: 64px;
+  height: auto;
+}
+
+.weather-info-temperature{
+  display: flex;
+}
+
+.weather-info-temperature > div{
+  height: 64px;
+}
+
+.weather-info-temperature > div:first-of-type{
+  font-size: 44px;
+}
+
+.weather-info-temperature > div:nth-of-type(2){
+  margin-top: 10px;
+}
+
+.weather-info-body-left {
+  display: flex;
+  margin-right: 30px;
+}

@@ -1,22 +1,20 @@
-![React Wheater App](https://rqueiroz.netlify.com/static/wheater-app-29cd5c82f63410c764df72d33b9c6c93.jpg)
-
-# React Whater App
-
-A Wheater Web App build with React and Wheater API
+# React Weather Web App
 
 ## Live demo
-[Click here](https://romantic-gates-0ddd40.netlify.com/)
+See a live demo [here](https://react-weather-web-app.surge.sh/)
 
 ## Build With
 
-* HTML5
-* CSS3
-* Javascript
 * React
+* React Hooks
+* Yarn
+* create-react-app
+* OpenWeather Api
+* SweetAlert 2
 * Axios
-* [Weather API](https://openweathermap.org/api)
+* Bootstrap 5
 
-## How to Install
+## How to install
 
 ```
 yarn
@@ -29,7 +27,7 @@ Development server:
 yarn start
 ```
 
-Build
+Build:
 ```
 yarn build
 ```
