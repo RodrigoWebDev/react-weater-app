@@ -11,11 +11,6 @@
   font-size: 14px;
 }
 
-.weather-info img{
-  width: 64px;
-  height: auto;
-}
-
 .weather-info-temperature{
   display: flex;
 }
@@ -35,4 +30,5 @@
 .weather-info-body-left {
   display: flex;
   margin-right: 30px;
+  align-items: center;
 }
